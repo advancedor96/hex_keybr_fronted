@@ -75,7 +75,8 @@ export default {
     },
     async getData () {
       try {
-        const res = await axios.get('http://localhost:3000/data')
+        // const res = await axios.get('http://localhost:3000/data')
+        const res = await axios.get('https://hexschool-keybr.herokuapp.com/api/users')
         this.userList = res.data
         console.log('user', this.userList)
 
