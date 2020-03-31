@@ -1,6 +1,5 @@
 <template>
   <div class="home" ref="aaa">
-home
   <canvas ref="myChart" width="400" height="400"></canvas>
   </div>
 </template>
@@ -10,24 +9,6 @@ home
 import Chart from 'chart.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
-function getRandomColor () {
-  var letters = '0123456789ABCDEF'
-  var color = '#'
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
-
-const getDisplayDays = () => {
-  const s = new Date('2020-03-30').getTime()
-  const now = new Date().getTime()
-  const diff = (now - s) / 1000 / 86400
-  let x_days = Math.floor(diff + 2)
-  if (x_days >= 21) x_days = 21
-  console.log('顯示', x_days, '天')
-  return x_days
-}
 export default {
   name: 'Home',
   components: {
@@ -79,5 +60,24 @@ export default {
       console.log('get data')
     }
   }
+}
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
+const getDisplayDays = () => {
+  const s = new Date('2020-03-30').getTime()
+  const now = new Date().getTime()
+  const diff = (now - s) / 1000 / 86400
+  let x_days = Math.floor(diff + 2)
+  if (x_days >= 21) x_days = 21
+  console.log('顯示', x_days, '天')
+  return x_days
 }
 </script>
