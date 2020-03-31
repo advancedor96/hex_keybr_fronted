@@ -9,6 +9,7 @@ home
 // @ is an alias to /src
 import Chart from 'chart.js'
 import axios from 'axios'
+import dayjs from 'dayjs'
 function getRandomColor () {
   var letters = '0123456789ABCDEF'
   var color = '#'
@@ -18,21 +19,27 @@ function getRandomColor () {
   return color
 }
 
+const getDisplayDays = () => {
+  const s = new Date('2020-03-30').getTime()
+  const now = new Date().getTime()
+  const diff = (now - s) / 1000 / 86400
+  let x_days = Math.floor(diff + 2)
+  if (x_days >= 21) x_days = 21
+  console.log('顯示', x_days, '天')
+  return x_days
+}
 export default {
   name: 'Home',
   components: {
   },
   data: () => ({
-    myChart: null,
     userList: null
   }),
   mounted () {
     this.getData()
-    this.chart = this.$refs.myChart
   },
   methods: {
     makeChart () {
-      // to do: 抓出幾天 moment.js
       window.user = this.userList
       const mydataset = this.userList.map((e, i) => ({
         label: e.nickName,
@@ -42,10 +49,10 @@ export default {
         fill: false
 
       }))
-      var myChart = new Chart(this.chart, {
+      var myChart = new Chart(this.$refs.myChart, {
         type: 'line',
         data: {
-          labels: Array.from(Array(21), (e, i) => i + 1),
+          labels: Array.from(Array(getDisplayDays()), (e, i) => (`Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`)),
           datasets: mydataset
         },
         options: {
