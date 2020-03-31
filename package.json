@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "server": "json-server ./db.json"
+    "server": "json-server ./db.json",
+    "gh": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^0.19.2",
