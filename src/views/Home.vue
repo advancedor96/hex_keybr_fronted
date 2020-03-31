@@ -2,21 +2,24 @@
   <div class="home" ref="aaa">
     關注：
     <model-select :options="options" v-model="item" placeholder="搜尋名稱、FB帳號"></model-select>
-    <canvas ref="myChart" width="400" height="400"></canvas>
+    <line-chart ref="lineChart" :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Chart from 'chart.js'
+// import Chart from 'chart.js'
+import LineChart from './LineChart.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { ModelSelect } from 'vue-search-select'
+
 export default {
   name: 'Home',
-  components: { ModelSelect },
+  components: { ModelSelect, LineChart },
   data: () => ({
-    chart: null,
+    datacollection: {},
+    chartOptions: myChartOptions,
     userList: null,
     item: {
       value: '',
@@ -33,7 +36,12 @@ export default {
   watch: {
     item: function (new_val) {
       console.log('新item', new_val)
-      const selectUserList = this.userList.filter(user => user.nickName === new_val.value.nickName)
+      // to do: 可能會出現3個的情況
+      const selectUserList = this.userList.filter(user => {
+        if (new_val.value === '0' ||
+        (user.nickName === new_val.value.nickName && user.grade.filter(x => x !== '0.0').length === new_val.value.grade.filter(x => x !== '0.0').length)) return true
+        else return false
+      })
 
       this.mydataset = selectUserList.map((e, i) => ({
         label: e.nickName,
@@ -42,7 +50,11 @@ export default {
         borderColor: getRandomColor(),
         fill: false
       }))
-      this.chart.update()
+
+      this.datacollection = {
+        labels: Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`),
+        datasets: this.mydataset
+      }
     }
   },
   methods: {
@@ -55,31 +67,11 @@ export default {
         borderColor: getRandomColor(),
         fill: false
       }))
-      this.chart = new Chart(this.$refs.myChart, {
-        type: 'line',
-        data: {
-          labels: Array.from(
-            Array(getDisplayDays()),
-            (e, i) =>
-              `Day ${i + 1} (${dayjs('2020-03-30')
-                .add(i, 'day')
-                .format('MM/DD')})`
-          ),
-          datasets: this.mydataset
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: false
-                }
-              }
-            ]
-          }
-        }
-      })
-      window.chart = this.chart
+
+      this.datacollection = {
+        labels: Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`),
+        datasets: this.mydataset
+      }
     },
     async getData () {
       try {
@@ -100,7 +92,6 @@ export default {
       } catch (err) {
         console.log('err', err)
       }
-      console.log('get data')
     }
   }
 }
@@ -122,5 +113,17 @@ const getDisplayDays = () => {
   if (x_days >= 21) x_days = 21
   console.log('顯示', x_days, '天')
   return x_days
+}
+const myChartOptions = {
+  responsive: true,
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: false
+        }
+      }
+    ]
+  }
 }
 </script>
