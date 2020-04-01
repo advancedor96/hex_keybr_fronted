@@ -4,8 +4,8 @@
     <model-select :options="options" v-model="item" placeholder="搜尋名稱、FB帳號"></model-select>
     <line-chart ref="lineChart" :chart-data="datacollection" :options="chartOptions"></line-chart>
 
-    <v-card class="mx-auto" max-width="400" tile>
-      <v-list>
+    <v-card class="mx-auto mt-12" max-width="400" >
+      <v-list rounded>
         <v-subheader>個人進步排名</v-subheader>
         <v-list-item v-for="(user, i) in progressList" :key="i" >
             <v-list-item-avatar>
@@ -13,7 +13,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-html="user.nickName"></v-list-item-title>
-              <v-list-item-subtitle  v-html="`進步${user.progress} (${user.startScore}→${user.endScore} wpm)`"></v-list-item-subtitle>
+              <v-list-item-subtitle  v-html="`進步<strong>${user.progress}</strong> (${user.startScore}→${user.endScore} wpm)`"></v-list-item-subtitle>
             </v-list-item-content>
         </v-list-item>
       </v-list>
