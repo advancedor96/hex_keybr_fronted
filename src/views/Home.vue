@@ -45,7 +45,7 @@ export default {
 
       this.mydataset = selectUserList.map((e, i) => ({
         label: e.nickName,
-        data: e.grade,
+        data: e.grade.filter(x => x !== '0.0'),
         backgroundColor: getRandomColor(),
         borderColor: getRandomColor(),
         fill: false
@@ -62,7 +62,7 @@ export default {
       window.user = this.userList
       this.mydataset = this.userList.map((e, i) => ({
         label: e.nickName,
-        data: e.grade,
+        data: e.grade.filter(x => x !== '0.0'),
         backgroundColor: getRandomColor(),
         borderColor: getRandomColor(),
         fill: false
