@@ -1,24 +1,14 @@
-# hex_keybr
+# 21天英打鍛鍊武道大會
 
-## Project setup
-```
-npm install
-```
+## Demo
+<https://advancedor96.github.io/hex_keybr_fronted/#/>
 
-### Compiles and hot-reloads for development
+### 啟動專案
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 打包專案
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
