@@ -102,6 +102,22 @@ export default {
         })
         console.log('user', this.userList)
 
+        const progressArray = this.userList.map((u, idx) => {
+          const scoreArr = u.grade.filter(x => x !== '0.0')
+          const startScore = scoreArr[0]
+          const endScore = scoreArr[scoreArr.length - 1]
+          const diff = parseFloat((endScore - startScore).toFixed(2))
+          return {
+            nickName: u.nickName,
+            startScore: startScore,
+            endScore: endScore,
+            progress: diff,
+            grade: u.grade
+          }
+        }).sort((a, b) => (b.progress - a.progress)).slice(0, 10)
+
+        console.log('progressArray', progressArray)
+
         this.options = this.userList.map((el, idx) => {
           return {
             value: el,
