@@ -117,6 +117,7 @@ const getDisplayDays = () => {
 }
 const myChartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   scales: {
     yAxes: [
       {
