@@ -3,7 +3,22 @@
     <h2>關注：</h2>
     <model-select :options="options" v-model="item" placeholder="搜尋名稱、FB帳號"></model-select>
     <line-chart ref="lineChart" :chart-data="datacollection" :options="chartOptions"></line-chart>
-    <h2>進步排名</h2>
+
+    <v-card class="mx-auto" max-width="400" tile>
+      <v-list>
+        <v-subheader>個人進步排名</v-subheader>
+        <v-list-item v-for="(user, i) in progressList" :key="i" >
+            <v-list-item-avatar>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-html="user.nickName"></v-list-item-title>
+              <v-list-item-subtitle  v-html="`進步${user.progress} (${user.startScore}→${user.endScore} wpm)`"></v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
+
   </div>
 </template>
 
@@ -29,7 +44,8 @@ export default {
     options: [
       { value: '0', text: '所有人' }
     ],
-    mydataset: null
+    mydataset: null,
+    progressList: []
   }),
   mounted () {
     this.getData()
@@ -102,8 +118,9 @@ export default {
         })
         console.log('user', this.userList)
 
-        const progressArray = this.userList.map((u, idx) => {
-          const scoreArr = u.grade.filter(x => x !== '0.0')
+        // 是否該處理第一天輸入0的人？  感覺要。
+        this.progressList = this.userList.map((u, idx) => {
+          const scoreArr = u.grade.filter(x => parseFloat(x) !== 0)
           const startScore = scoreArr[0]
           const endScore = scoreArr[scoreArr.length - 1]
           const diff = parseFloat((endScore - startScore).toFixed(2))
@@ -116,7 +133,7 @@ export default {
           }
         }).sort((a, b) => (b.progress - a.progress)).slice(0, 10)
 
-        console.log('progressArray', progressArray)
+        console.log('progressList', this.progressList)
 
         this.options = this.userList.map((el, idx) => {
           return {

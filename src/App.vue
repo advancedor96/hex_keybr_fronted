@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app>
     <v-app-bar app>六角英打統計</v-app-bar>
 
     <v-content>
