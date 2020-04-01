@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app>六角英打統計</v-app-bar>
+    <v-app-bar app>21 天英打鍛鍊武道大會</v-app-bar>
 
     <v-content>
       <!-- Provides the application the proper gutter -->
@@ -10,11 +10,23 @@
       </v-container>
     </v-content>
     <v-footer app>
-      沒有版權
+      <!-- <v-btn icon color="blue"><v-icon>mdi-facebook</v-icon></v-btn> -->
+      <v-btn text color="#FF7F50" @click="toGithub"><v-icon>mdi-source-repository</v-icon>原始碼</v-btn>
+
+      <v-spacer></v-spacer>
+      <div>&copy; {{ new Date().getFullYear() }}</div>
     </v-footer>
   </v-app>
 </template>
-
+<script>
+export default {
+  methods: {
+    toGithub () {
+      window.open('https://github.com/advancedor96/hex_keybr_fronted', '_blank')
+    }
+  }
+}
+</script>
 <style lang="scss">
 html,
 body {

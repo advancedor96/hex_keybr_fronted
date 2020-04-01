@@ -4,7 +4,7 @@
     <model-select :options="options" v-model="item" placeholder="搜尋名稱、FB帳號"></model-select>
     <line-chart ref="lineChart" :chart-data="datacollection" :options="chartOptions"></line-chart>
 
-    <v-card class="mx-auto mt-12" max-width="400" >
+    <v-card class="mx-auto my-12" max-width="400" >
       <v-list rounded>
         <v-subheader>個人進步排名</v-subheader>
         <v-list-item v-for="(user, i) in progressList" :key="i" >
