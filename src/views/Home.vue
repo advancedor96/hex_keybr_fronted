@@ -7,15 +7,17 @@
     <v-card class="mx-auto my-12" max-width="400" >
       <v-list rounded>
         <v-subheader>個人進步排名</v-subheader>
-        <v-list-item v-for="(user, i) in progressList" :key="i" >
-            <v-list-item-avatar>
-              <v-icon x-large>mdi-account-circle</v-icon>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-html="user.nickName"></v-list-item-title>
-              <v-list-item-subtitle  v-html="`進步<strong>${user.progress}</strong> (${user.startScore}→${user.endScore} wpm)`"></v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item>
+        <v-list-item-group v-model="clickListItem" color="primary">
+          <v-list-item v-for="(user, i) in progressList" :key="i" @click="peopleSelect(i)">
+              <v-list-item-avatar>
+                <v-icon x-large>mdi-account-circle</v-icon>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="user.nickName"></v-list-item-title>
+                <v-list-item-subtitle  v-html="`進步<strong>${user.progress}</strong> (${user.startScore}→${user.endScore} wpm)`"></v-list-item-subtitle>
+              </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
     </v-card>
 
@@ -45,7 +47,8 @@ export default {
       { value: '0', text: '所有人' }
     ],
     mydataset: null,
-    progressList: []
+    progressList: [],
+    clickListItem: null
   }),
   mounted () {
     this.getData()
@@ -91,6 +94,12 @@ export default {
     }
   },
   methods: {
+    peopleSelect (i) {
+      const selectUser = this.progressList[i]
+
+      const itemIdx = this.options.findIndex((el, idx) => (el.value.nickName === selectUser.nickName))
+      this.item = this.options[itemIdx]
+    },
     makeChart () {
       window.user = this.userList
 
@@ -138,7 +147,7 @@ export default {
         this.options = this.userList.map((el, idx) => {
           return {
             value: el,
-            text: `${el.nickName} (${el.grade.filter(x => x !== '0.0').length})天記錄 ${el.fbLink ? el.fbLink : ''}${el.keybrLink ? el.keybrLink : ''} `
+            text: `${el.nickName} (${el.grade.filter(x => x !== '0.0').length})天記錄`
           }
         })
         this.options.splice(0, 0, { value: '0', text: '所有人' })
