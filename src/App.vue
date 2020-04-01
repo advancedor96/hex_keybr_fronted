@@ -1,13 +1,23 @@
 <template>
-  <div id="app">
-    <div>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="app">
+    <v-app-bar app>六角英打統計</v-app-bar>
+
+    <v-content>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-footer app>
+      沒有版權
+    </v-footer>
+  </v-app>
 </template>
 
 <style lang="scss">
-html, body{
+html,
+body {
   margin: 0;
   padding: 0;
 }

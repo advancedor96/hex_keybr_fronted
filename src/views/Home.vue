@@ -1,8 +1,9 @@
 <template>
   <div class="home" ref="aaa">
-    關注：
+    <h2>關注：</h2>
     <model-select :options="options" v-model="item" placeholder="搜尋名稱、FB帳號"></model-select>
     <line-chart ref="lineChart" :chart-data="datacollection" :options="chartOptions"></line-chart>
+    <h2>進步排名</h2>
   </div>
 </template>
 
