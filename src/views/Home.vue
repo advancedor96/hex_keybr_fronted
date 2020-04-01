@@ -9,7 +9,7 @@
         <v-subheader>個人進步排名</v-subheader>
         <v-list-item v-for="(user, i) in progressList" :key="i" >
             <v-list-item-avatar>
-              <v-icon>mdi-account-circle</v-icon>
+              <v-icon x-large>mdi-account-circle</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-html="user.nickName"></v-list-item-title>
