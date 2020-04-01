@@ -19,7 +19,7 @@ export default {
   components: { ModelSelect, LineChart },
   data: () => ({
     datacollection: {},
-    chartOptions: myChartOptions,
+    chartOptions: {},
     userList: null,
     item: {
       value: '',
@@ -55,11 +55,28 @@ export default {
         labels: Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`),
         datasets: this.mydataset
       }
+      this.chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false
+              }
+            }
+          ]
+        },
+        legend: {
+          display: new_val.value !== '0'
+        }
+      }
     }
   },
   methods: {
     makeChart () {
       window.user = this.userList
+
       this.mydataset = this.userList.map((e, i) => ({
         label: e.nickName,
         data: e.grade.filter(x => x !== '0.0'),
@@ -77,7 +94,11 @@ export default {
       try {
         // const res = await axios.get('http://localhost:3000/data')
         const res = await axios.get('https://hexschool-keybr.herokuapp.com/api/users')
-        this.userList = res.data
+        this.userList = res.data.sort((a, b) => {
+          const aa = a.grade.filter(x => x !== '0.0').length
+          const bb = b.grade.filter(x => x !== '0.0').length
+          return bb - aa
+        })
         console.log('user', this.userList)
 
         this.options = this.userList.map((el, idx) => {
@@ -115,17 +136,5 @@ const getDisplayDays = () => {
   console.log('顯示', x_days, '天')
   return x_days
 }
-const myChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: false
-        }
-      }
-    ]
-  }
-}
+
 </script>
