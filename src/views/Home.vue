@@ -4,12 +4,12 @@
       <v-progress-circular class="mt-12" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </div>
 
-    <v-layout row align-center="">
+    <v-layout row align-center="" class="ml-4">
       <v-card max-width="160" >
         <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" >
         </v-img>
       </v-card>
-      <p class="font-weight-black ml-4" style="font-size: 40px;">你今天...練打字了嗎？</p>
+      <div class="font-weight-black ml-4" style="font-size: 40px;">你今天...練英打了嗎？</div>
     </v-layout>
 
     <v-card-text>
@@ -19,7 +19,7 @@
         color="black"
         item-text="Description"
         item-value="fullUser"
-        label="關注自己   (輸入暱稱搜尋)"
+        label="關注自己   (輸入暱稱尋找自己)"
         placeholder="搜尋參賽者名稱"
         prepend-icon="mdi-database-search"
         return-object
