@@ -11,19 +11,18 @@
       <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
     </v-flex>
 
-    <v-card-text>
-      <v-autocomplete
-        v-model="auto_select_user"
-        :items="userListForUi"
-        color="black"
-        item-text="Description"
-        item-value="fullUser"
-        label="關注自己   (輸入暱稱尋找自己)"
-        placeholder="搜尋參賽者名稱"
-        prepend-icon="mdi-database-search"
-        return-object
-      ></v-autocomplete>
-    </v-card-text>
+    <v-autocomplete
+      v-model="auto_select_user"
+      :items="userListForUi"
+      color="black"
+      item-text="Description"
+      item-value="fullUser"
+      label="關注自己   (輸入暱稱尋找自己)"
+      placeholder="搜尋參賽者名稱"
+      prepend-icon="mdi-database-search"
+      return-object
+      class="mt-6"
+    ></v-autocomplete>
 
     <v-alert
       border="bottom"
@@ -35,10 +34,10 @@
     >
       {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
     </v-alert>
-    <v-card class="mx-auto my-12" max-width="1280">
+    <v-card class="mx-auto" max-width="1280">
 
-      <v-toolbar color="light-blue" dark>
-        <v-toolbar-title>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</v-toolbar-title>
+      <v-toolbar :elevation="0" color="" >
+        <v-toolbar-title><b>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</b></v-toolbar-title>
       </v-toolbar>
 
       <v-card-text>
