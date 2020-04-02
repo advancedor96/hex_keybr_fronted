@@ -12,3 +12,8 @@ npm run serve
 ```
 npm run build
 ```
+
+
+#### 開發筆記:
+js建立陣列 with 21個0值：
+`let a = Array(21).fill(0)`

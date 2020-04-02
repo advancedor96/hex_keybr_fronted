@@ -39,6 +39,7 @@ export default {
     datacollection: {},
     chartOptions: {},
     userList: null,
+    countOf21Days: null, // 統計每一次有參賽的人數
     item: {
       value: '',
       text: ''
@@ -72,7 +73,7 @@ export default {
       }))
 
       this.datacollection = {
-        labels: Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`),
+        labels: this.makeLabels(),
         datasets: this.mydataset
       }
       this.chartOptions = {
@@ -94,6 +95,9 @@ export default {
     }
   },
   methods: {
+    makeLabels () {
+      return Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${this.countOf21Days[i]})`)
+    },
     peopleSelect (i) {
       const selectUser = this.progressList[i]
 
@@ -102,6 +106,15 @@ export default {
     },
     makeChart () {
       window.user = this.userList
+
+      // 統計每一次有參賽的人數
+      this.countOf21Days = Array(21).fill(0)
+      for (let i = 0; i < this.userList.length; i++) {
+        const user = this.userList[i]
+        for (let u_idx = 0; u_idx < user.grade.length; u_idx++) {
+          if (parseFloat(user.grade[u_idx]) !== 0) this.countOf21Days[u_idx]++
+        }
+      }
 
       this.mydataset = this.userList.map((e, i) => ({
         label: e.nickName,
@@ -112,7 +125,7 @@ export default {
       }))
 
       this.datacollection = {
-        labels: Array.from(Array(getDisplayDays()), (e, i) => `Day ${i + 1} (${dayjs('2020-03-30').add(i, 'day').format('MM/DD')})`),
+        labels: this.makeLabels(),
         datasets: this.mydataset
       }
     },
