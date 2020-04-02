@@ -3,7 +3,15 @@
     <div v-if="isLoading" class="progress text-center">
       <v-progress-circular class="mt-12" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </div>
-    <div>輸入你的參賽名稱</div>
+
+    <v-layout row align-center="">
+      <v-card max-width="160" >
+        <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" >
+        </v-img>
+      </v-card>
+      <p class="font-weight-black ml-4" style="font-size: 40px;">你今天...練打字了嗎？</p>
+    </v-layout>
+
     <v-card-text>
       <v-autocomplete
         v-model="auto_select_user"
