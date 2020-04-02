@@ -6,8 +6,7 @@
 
     <v-layout row align-center="" class="ml-4">
       <v-card max-width="160" >
-        <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" >
-        </v-img>
+        <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
       </v-card>
       <div class="font-weight-black ml-4" style="font-size: 40px;">你今天...練英打了嗎？</div>
     </v-layout>
@@ -37,22 +36,32 @@
       {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
     </v-alert>
     <v-card class="mx-auto my-12" max-width="1280">
-      <v-card-title>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</v-card-title>
+
+      <v-toolbar color="light-blue" dark>
+        <v-toolbar-title>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</v-toolbar-title>
+      </v-toolbar>
+
       <v-card-text>
         <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions()"></line-chart>
       </v-card-text>
     </v-card>
 
-    <v-card class="mx-auto my-12" max-width="400">
+    <v-card class="mx-auto my-12" max-width="600">
+      <v-toolbar color="light-blue" dark>
+        <v-toolbar-title>進步排行榜</v-toolbar-title><v-spacer></v-spacer>
+        <v-btn icon @click="tollgeAllProgressList">
+          <v-icon>mdi-arrow-expand-vertical</v-icon>
+        </v-btn>
+      </v-toolbar>
       <v-list rounded>
-        <v-subheader>個人進步排名</v-subheader>
+        <!-- <v-subheader>個人進步排名</v-subheader> -->
         <v-list-item-group v-model="clickListItem" color="primary">
-          <v-list-item v-for="(user, i) in progressList" :key="i" @click="peopleSelect(i)">
+          <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(i)">
             <v-list-item-avatar>
-              <v-icon x-large>mdi-account-circle</v-icon>
+              {{i + 1}}
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-html="user.nickName"></v-list-item-title>
+              <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
               <v-list-item-subtitle
                 v-html="`進步<strong>${user.progress}</strong> (${user.startScore}→${user.endScore} wpm)`"
               ></v-list-item-subtitle>
@@ -63,7 +72,9 @@
     </v-card>
 
     <v-card class="mx-auto my-12" max-width="1280">
-      <v-card-title>所有人</v-card-title>
+      <v-toolbar color="light-blue" dark>
+        <v-toolbar-title>所有人</v-toolbar-title>
+      </v-toolbar>
       <v-card-text>
         <line-chart ref="allUserLineChart" :chart-data="allUserDataCollection" :options="allUserChartOption"></line-chart>
       </v-card-text>
@@ -123,7 +134,8 @@ export default {
     countOf21Days: null, // 統計每一次有參賽的人數
     clickListItem: null,
     isLoading: false,
-    showAlert: false // 今天在成績欄中的哪一個
+    showAlert: false, // 今天在成績欄中的哪一個,
+    isShowAllProgress: false
   }),
   mounted () {
     this.getData()
@@ -180,8 +192,8 @@ export default {
       return this.userList
         .map((u, idx) => {
           const scoreArr = u.grade.filter(x => parseFloat(x) !== 0)
-          const startScore = scoreArr[0]
-          const endScore = scoreArr[scoreArr.length - 1]
+          const startScore = scoreArr[0] || 0
+          const endScore = scoreArr[scoreArr.length - 1] || 0
           const diff = parseFloat((endScore - startScore).toFixed(2))
           return {
             nickName: u.nickName,
@@ -192,11 +204,18 @@ export default {
           }
         })
         .sort((a, b) => b.progress - a.progress)
-        .slice(0, 10)
+    },
+    showProgressList () {
+      if (!this.userList) return
+      if (this.isShowAllProgress) return this.progressList
+      else return this.progressList.slice(0, 10)
     }
 
   },
   methods: {
+    tollgeAllProgressList () {
+      this.isShowAllProgress = !this.isShowAllProgress
+    },
     makeLabels () {
       return Array.from(
         Array(getDisplayDays()),
@@ -204,7 +223,7 @@ export default {
       )
     },
     peopleSelect (i) {
-      const selectUser = this.progressList[i]
+      const selectUser = this.showProgressList[i]
       const itemIdx = this.userListForUi.findIndex((el, idx) => el.fullUser.nickName === selectUser.nickName
       )
       this.auto_select_user = this.userListForUi[itemIdx]
