@@ -1,5 +1,14 @@
 <template>
   <div class="home" ref="aaa">
+    <div v-if="isLoading" class="progress text-center">
+        <v-progress-circular
+        class="mt-12"
+        :size="80"
+        width="7"
+        color="green"
+        indeterminate
+      ></v-progress-circular>
+    </div>
     <v-card class="mx-auto my-12" max-width="400" >
       <v-list rounded>
         <v-subheader>個人進步排名</v-subheader>
@@ -49,7 +58,8 @@ export default {
     ],
     mydataset: null,
     progressList: [],
-    clickListItem: null
+    clickListItem: null,
+    isLoading: false
   }),
   mounted () {
     this.getData()
@@ -131,7 +141,7 @@ export default {
     },
     async getData () {
       try {
-        // const res = await axios.get('http://localhost:3000/data')
+        this.isLoading = true
         const res = await axios.get('https://hexschool-keybr.herokuapp.com/api/users')
         this.userList = res.data.sort((a, b) => {
           const aa = a.grade.filter(x => x !== '0.0').length
@@ -140,7 +150,7 @@ export default {
         })
         console.log('user', this.userList)
 
-        // 是否該處理第一天輸入0的人？  感覺要。
+        // 個人進步值的陣列
         this.progressList = this.userList.map((u, idx) => {
           const scoreArr = u.grade.filter(x => parseFloat(x) !== 0)
           const startScore = scoreArr[0]
@@ -155,7 +165,7 @@ export default {
           }
         }).sort((a, b) => (b.progress - a.progress)).slice(0, 10)
 
-        console.log('progressList', this.progressList)
+        this.isLoading = false
 
         this.options = this.userList.map((el, idx) => {
           return {
@@ -194,3 +204,17 @@ const getDisplayDays = () => {
 }
 
 </script>
+<style lang="scss" scoped>
+.progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.623);
+
+}
+</style>
