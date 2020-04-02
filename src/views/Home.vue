@@ -4,12 +4,12 @@
       <v-progress-circular class="mt-12" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </div>
 
-    <v-layout row align-center="" class="ml-4">
+    <v-flex row align-center="" class="ml-2">
       <v-card max-width="160" >
         <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
       </v-card>
-      <div class="font-weight-black ml-4" style="font-size: 40px;">你今天...練英打了嗎？</div>
-    </v-layout>
+      <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
+    </v-flex>
 
     <v-card-text>
       <v-autocomplete
