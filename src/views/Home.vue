@@ -41,13 +41,17 @@
       </v-toolbar>
 
       <v-card-text>
+        <v-chip v-if="auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
+        <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
+      </v-card-text>
+      <v-card-text>
         <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions()"></line-chart>
       </v-card-text>
     </v-card>
 
     <v-card class="mx-auto my-12" max-width="600">
       <v-toolbar color="light-blue" dark>
-        <v-toolbar-title>進步排行榜</v-toolbar-title><v-spacer></v-spacer>
+        <v-toolbar-title>{{progressListTitle}}</v-toolbar-title><v-spacer></v-spacer>
         <v-btn icon @click="tollgeAllProgressList">
           <v-icon>mdi-arrow-expand-vertical</v-icon>
         </v-btn>
@@ -62,7 +66,7 @@
             <v-list-item-content>
               <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
               <v-list-item-subtitle
-                v-html="`進步<strong>${user.progress}</strong> (${user.startScore}→${user.endScore} wpm)`"
+                v-html="`進步<strong>${user.progress}</strong> (${user.range[0]}→${user.range[1]} wpm)`"
               ></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -147,7 +151,7 @@ export default {
       // 顯示今天打字沒
       this.oneUserDataSet = [{
         label: val.fullUser.nickName,
-        data: val.fullUser.grade.filter(x => x !== '0.0'),
+        data: val.fullUser.grade,
         backgroundColor: getRandomColor(),
         borderColor: getRandomColor(),
         fill: false
@@ -181,33 +185,23 @@ export default {
       return this.userList.map((el, idx) => {
         return {
           fullUser: el,
-          Description: `${el.nickName} (${el.grade.filter(x => x !== '0.0').length})天記錄`
+          Description: `${el.nickName} (${el.grade.filter(x => x !== 0).length})天記錄`
         }
       })
+    },
+    progressListTitle () {
+      if (this.isShowAllProgress === false) return `連續練習${getDisplayDays()}天、並進步15wpm者`
+      else return '所有人'
     },
     progressList () {
       // 個人進步值的陣列
       if (!this.userList) return
-      return this.userList
-        .map((u, idx) => {
-          const scoreArr = u.grade.filter(x => parseFloat(x) !== 0)
-          const startScore = scoreArr[0] || 0
-          const endScore = scoreArr[scoreArr.length - 1] || 0
-          const diff = parseFloat((endScore - startScore).toFixed(2))
-          return {
-            nickName: u.nickName,
-            startScore: startScore,
-            endScore: endScore,
-            progress: diff,
-            grade: u.grade
-          }
-        })
-        .sort((a, b) => b.progress - a.progress)
+      return this.userList.concat().sort((a, b) => (b.progress - a.progress))
     },
     showProgressList () {
       if (!this.userList) return
       if (this.isShowAllProgress) return this.progressList
-      else return this.progressList.slice(0, 10)
+      else return this.progressList.filter(e => e.persevere && e.progress >= 15)
     }
 
   },
@@ -223,8 +217,7 @@ export default {
     },
     peopleSelect (i) {
       const selectUser = this.showProgressList[i]
-      const itemIdx = this.userListForUi.findIndex((el, idx) => el.fullUser.nickName === selectUser.nickName
-      )
+      const itemIdx = this.userListForUi.findIndex((el, idx) => el.fullUser.nickName === selectUser.nickName)
       this.auto_select_user = this.userListForUi[itemIdx]
     },
     makeChart () {
@@ -241,7 +234,7 @@ export default {
 
       this.allUserDataSet = this.userList.map((e, i) => ({
         label: e.nickName,
-        data: e.grade.filter(x => x !== '0.0'),
+        data: e.grade,
         backgroundColor: getRandomColor(),
         borderColor: getRandomColor(),
         fill: false
@@ -259,8 +252,8 @@ export default {
           'https://hexschool-keybr.herokuapp.com/api/users'
         )
         this.userList = res.data.sort((a, b) => {
-          const aa = a.grade.filter(x => x !== '0.0').length
-          const bb = b.grade.filter(x => x !== '0.0').length
+          const aa = a.grade.filter(x => x !== 0).length
+          const bb = b.grade.filter(x => x !== 0).length
           return bb - aa
         })
         console.log('user', this.userList)
@@ -285,12 +278,9 @@ const getRandomColor = () => {
 }
 
 const getDisplayDays = () => {
-  const s = new Date('2020-03-30').getTime()
-  const now = new Date().getTime()
-  const diff = (now - s) / 1000 / 86400
-  let x_days = Math.floor(diff + 2)
-  if (x_days >= 21) x_days = 21
-  return x_days
+  let displayDays = dayjs().diff(dayjs('2020-03-30'), 'days') + 1
+  if (displayDays >= 21) displayDays = 21
+  return displayDays
 }
 </script>
 <style lang="scss" scoped>
