@@ -35,7 +35,6 @@
       {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
     </v-alert>
     <v-card class="mx-auto" max-width="1280">
-
       <v-toolbar :elevation="0" color="" >
         <v-toolbar-title><b>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</b></v-toolbar-title>
       </v-toolbar>
@@ -67,6 +66,28 @@
               <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
               <v-list-item-subtitle
                 v-html="`進步<strong>${user.progress}</strong> (${user.range[0]}→${user.range[1]} wpm)`"
+              ></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-card>
+
+    <v-card class="mx-auto my-12" max-width="600">
+      <v-toolbar color="light-blue" dark>
+        <v-toolbar-title>速度前20名</v-toolbar-title><v-spacer></v-spacer>
+      </v-toolbar>
+      <v-list rounded>
+        <!-- <v-subheader>個人進步排名</v-subheader> -->
+        <v-list-item-group v-model="clickListItem" color="primary">
+          <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(i)">
+            <v-list-item-avatar>
+              {{i + 1}}
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
+              <v-list-item-subtitle
+                v-html="`${user.range[1]} wpm`"
               ></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -202,6 +223,10 @@ export default {
       if (!this.userList) return
       if (this.isShowAllProgress) return this.progressList
       else return this.progressList.filter(e => e.persevere && e.progress >= 15)
+    },
+    topSpeed20List () {
+      if (!this.userList) return []
+      else return this.userList.concat().sort((a, b) => (b.range[1] - a.range[1])).slice(0, 20)
     }
 
   },
