@@ -1,8 +1,8 @@
 <template>
   <div class="home" ref="aaa">
-    <div v-if="isLoading" class="progress text-center">
-      <v-progress-circular class="mt-12" :size="80" width="7" color="green" indeterminate></v-progress-circular>
-    </div>
+    <v-flex v-if="isLoading" class="progress d-flex" justify-center>
+      <v-progress-circular style="margin-top:200px;" :size="80" width="7" color="green" indeterminate></v-progress-circular>
+    </v-flex>
 
     <v-flex row align-center="" class="ml-2">
       <v-card max-width="160" >
@@ -12,7 +12,6 @@
     </v-flex>
 
     <v-flex class="row">
-
       <div style="max-width:600px;">
         <v-autocomplete
           v-model="auto_select_user"
