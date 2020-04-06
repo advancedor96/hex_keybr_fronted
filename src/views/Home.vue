@@ -58,7 +58,7 @@
       <v-list rounded>
         <!-- <v-subheader>個人進步排名</v-subheader> -->
         <v-list-item-group v-model="clickListItem" color="primary">
-          <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(i)">
+          <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(user)">
             <v-list-item-avatar>
               {{i + 1}}
             </v-list-item-avatar>
@@ -80,7 +80,7 @@
       <v-list rounded>
         <!-- <v-subheader>個人進步排名</v-subheader> -->
         <v-list-item-group v-model="clickListItem" color="primary">
-          <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(i)">
+          <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(user)">
             <v-list-item-avatar>
               {{i + 1}}
             </v-list-item-avatar>
@@ -240,9 +240,9 @@ export default {
         (e, i) => `Day ${i + 1} (${this.countOf21Days[i]})`
       )
     },
-    peopleSelect (i) {
-      const selectUser = this.showProgressList[i]
-      const itemIdx = this.userListForUi.findIndex((el, idx) => el.fullUser.nickName === selectUser.nickName)
+    peopleSelect (user) {
+      // const selectUser = this.showProgressList[i]
+      const itemIdx = this.userListForUi.findIndex((el, idx) => el.fullUser.nickName === user.nickName)
       this.auto_select_user = this.userListForUi[itemIdx]
     },
     makeChart () {
