@@ -41,7 +41,7 @@
       </v-toolbar>
 
       <v-card-text>
-        <v-chip v-if="auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
+        <v-chip v-if="auto_select_user &&  auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
         <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
       </v-card-text>
       <v-card-text>
