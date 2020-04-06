@@ -11,89 +11,94 @@
       <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
     </v-flex>
 
-    <v-autocomplete
-      v-model="auto_select_user"
-      :items="userListForUi"
-      color="black"
-      item-text="Description"
-      item-value="fullUser"
-      label="關注自己   (輸入暱稱尋找自己)"
-      placeholder="搜尋參賽者名稱"
-      prepend-icon="mdi-database-search"
-      return-object
-      class="mt-6"
-    ></v-autocomplete>
+    <v-flex class="row">
 
-    <v-alert
-      border="bottom"
-      colored-border
-      type="warning"
-      elevation="2"
-      dismissible
-      v-if="showAlert"
-    >
-      {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
-    </v-alert>
-    <v-card class="mx-auto" max-width="1280">
-      <v-toolbar :elevation="0" color="" >
-        <v-toolbar-title><b>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</b></v-toolbar-title>
-      </v-toolbar>
+      <div style="max-width:600px;">
+        <v-autocomplete
+          v-model="auto_select_user"
+          :items="userListForUi"
+          color="black"
+          item-text="Description"
+          item-value="fullUser"
+          label="關注自己   (輸入暱稱尋找自己)"
+          placeholder="搜尋參賽者名稱"
+          prepend-icon="mdi-database-search"
+          return-object
+          class="mt-6"
+        ></v-autocomplete>
 
-      <v-card-text>
-        <v-chip v-if="auto_select_user &&  auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
-        <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
-      </v-card-text>
-      <v-card-text>
-        <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions()"></line-chart>
-      </v-card-text>
-    </v-card>
+        <v-alert
+          border="bottom"
+          colored-border
+          type="warning"
+          elevation="2"
+          dismissible
+          v-if="showAlert"
+        >
+          {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
+        </v-alert>
+        <v-card class="mx-auto" max-width="1280">
+          <v-toolbar :elevation="0" color="" >
+            <v-toolbar-title><b>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</b></v-toolbar-title>
+          </v-toolbar>
 
-    <v-card class="mx-auto my-12" max-width="600">
-      <v-toolbar color="light-blue" dark>
-        <v-toolbar-title>{{progressListTitle}}</v-toolbar-title><v-spacer></v-spacer>
-        <v-btn icon @click="tollgeAllProgressList">
-          <v-icon>mdi-arrow-expand-vertical</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-list rounded>
-        <!-- <v-subheader>個人進步排名</v-subheader> -->
-        <v-list-item-group v-model="clickListItem" color="primary">
-          <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(user)">
-            <v-list-item-avatar>
-              {{i + 1}}
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
-              <v-list-item-subtitle
-                v-html="`進步<strong>${user.progress}</strong> (${user.range[0]}→${user.range[1]} wpm)`"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
+          <v-card-text>
+            <v-chip v-if="auto_select_user &&  auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
+            <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
+          </v-card-text>
+          <v-card-text>
+            <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions()"></line-chart>
+          </v-card-text>
+        </v-card>
+      </div>
 
-    <v-card class="mx-auto my-12" max-width="600">
-      <v-toolbar color="light-blue" dark>
-        <v-toolbar-title>速度前20名</v-toolbar-title><v-spacer></v-spacer>
-      </v-toolbar>
-      <v-list rounded>
-        <!-- <v-subheader>個人進步排名</v-subheader> -->
-        <v-list-item-group v-model="clickListItem" color="primary">
-          <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(user)">
-            <v-list-item-avatar>
-              {{i + 1}}
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
-              <v-list-item-subtitle
-                v-html="`${user.range[1]} wpm`"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
+      <v-card class="mx-12" max-width="600">
+        <v-toolbar color="light-blue" dark>
+          <v-toolbar-title>{{progressListTitle}}</v-toolbar-title><v-spacer></v-spacer>
+          <v-btn icon @click="tollgeAllProgressList">
+            <v-icon>mdi-arrow-expand-vertical</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-list rounded>
+          <!-- <v-subheader>個人進步排名</v-subheader> -->
+          <v-list-item-group v-model="clickListItem" color="primary">
+            <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(user)">
+              <v-list-item-avatar>
+                {{i + 1}}
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
+                <v-list-item-subtitle
+                  v-html="`進步<strong>${user.progress}</strong> (${user.range[0]}→${user.range[1]} wpm)`"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+
+      <v-card class="mx-12" max-width="600">
+        <v-toolbar color="light-blue" dark>
+          <v-toolbar-title>速度前20名</v-toolbar-title><v-spacer></v-spacer>
+        </v-toolbar>
+        <v-list rounded>
+          <!-- <v-subheader>個人進步排名</v-subheader> -->
+          <v-list-item-group v-model="clickListItem" color="primary">
+            <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(user)">
+              <v-list-item-avatar>
+                {{i + 1}}
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="`<strong>${user.nickName}</strong>`"></v-list-item-title>
+                <v-list-item-subtitle
+                  v-html="`${user.range[1]} wpm`"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+    </v-flex>
 
     <v-card class="mx-auto my-12" max-width="1280">
       <v-toolbar color="light-blue" dark>
