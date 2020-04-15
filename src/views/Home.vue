@@ -163,7 +163,8 @@ export default {
     clickListItem: null,
     isLoading: false,
     showAlert: false, // 今天在成績欄中的哪一個,
-    isShowAllProgress: false
+    isShowAllProgress: false,
+    avgWpmOf21Days: null // 統計每天的平均速度
   }),
   mounted () {
     this.getData()
@@ -179,6 +180,13 @@ export default {
         data: val.fullUser.grade,
         backgroundColor: getRandomColor(),
         borderColor: getRandomColor(),
+        fill: false
+
+      }, {
+        label: '眾人平均',
+        data: this.avgWpmOf21Days,
+        backgroundColor: '#4caf50',
+        borderColor: '#4caf90',
         fill: false
 
       }]
@@ -241,7 +249,7 @@ export default {
     makeLabels () {
       return Array.from(
         Array(getDisplayDays()),
-        (e, i) => `Day ${i + 1} (${this.countOf21Days[i]})`
+        (e, i) => `Day ${i + 1} (${this.countOf21Days[i]})平均${this.avgWpmOf21Days[i]}`
       )
     },
     peopleSelect (user) {
@@ -259,6 +267,20 @@ export default {
         for (let u_idx = 0; u_idx < user.grade.length; u_idx++) {
           if (parseFloat(user.grade[u_idx]) !== 0) this.countOf21Days[u_idx]++
         }
+      }
+
+      // 計算每天的平均速度
+      this.avgWpmOf21Days = Array(21).fill(0)
+
+      for (let u_idx = 0; u_idx < getDisplayDays(); u_idx++) {
+        let sum = 0
+        for (let i = 0; i < this.userList.length; i++) {
+          const user = this.userList[i]
+          if (parseFloat(user.grade[u_idx]) !== 0) {
+            sum += parseFloat(user.grade[u_idx])
+          }
+        }
+        this.avgWpmOf21Days[u_idx] = (sum / this.countOf21Days[u_idx]).toFixed(1)
       }
 
       this.allUserDataSet = this.userList.map((e, i) => ({
