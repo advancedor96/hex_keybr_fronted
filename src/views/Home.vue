@@ -4,12 +4,15 @@
       <v-progress-circular style="margin-top:200px;" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </v-flex>
 
-    <v-flex row align-center="" class="mx-auto">
-      <v-card max-width="160" >
-        <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
+    <!-- <v-flex row align-center="" class="mx-auto"> -->
+      <v-card class="d-flex row round mb-4 mx-auto" max-width="800" :elevation="12">
+        <v-img class="howhow_img" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
+        <dir style="flex:1;line-height: 160px; " class="ml-6">
+          你今天...練英打了嗎？
+        </dir>
       </v-card>
-      <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
-    </v-flex>
+      <!-- <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div> -->
+    <!-- </v-flex> -->
 
     <v-card class="mx-auto py-1 px-2 round" max-width="800" :elevation="12" >
       <v-toolbar :elevation="0">
@@ -45,26 +48,26 @@
         <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
       </v-card-text>
       <v-card-text>
-        <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions()"></line-chart>
+        <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions"></line-chart>
       </v-card-text>
     </v-card>
 
-    <div class="d-flex ma-4 mx-auto " :elevation="1">
+    <v-card class="d-flex mx-auto round pt-8 pl-2 my-8" :elevation="12" style="max-width:1300px;max-height: 900px; height:770px;">
       <dir style="width:400px;">
         <v-tabs :fixed-tabs="true" >
-          <v-tab >進步榜</v-tab>
-          <v-tab>前20名</v-tab>
+          <v-tab >鐵人進步獎</v-tab>
+          <v-tab>鐵人神速獎</v-tab>
           <v-tabs-slider></v-tabs-slider>
           <v-tab-item>
             <!-- 進步榜 -->
             <v-card class="mx-1" elevation="0">
               <v-toolbar elevation="0">
                 <v-toolbar-title>{{progressListTitle}}</v-toolbar-title><v-spacer></v-spacer>
-                <v-btn icon @click="tollgeAllProgressList">
+                <!-- <v-btn icon @click="tollgeAllProgressList">
                   <v-icon>mdi-arrow-expand-vertical</v-icon>
-                </v-btn>
+                </v-btn> -->
               </v-toolbar>
-              <v-list rounded dense height="600" style="overflow:auto;">
+              <v-list rounded dense height="570" style="overflow:auto;">
                 <!-- <v-subheader>個人進步排名</v-subheader> -->
                 <v-list-item-group v-model="clickListItem" color="primary">
                   <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(user)">
@@ -88,7 +91,7 @@
               <v-toolbar  elevation="0">
                 <v-toolbar-title>速度前20名</v-toolbar-title><v-spacer></v-spacer>
               </v-toolbar>
-              <v-list rounded dense height="600" style="overflow:auto;">
+              <v-list rounded dense height="570" style="overflow:auto;">
                 <!-- <v-subheader>個人進步排名</v-subheader> -->
                 <v-list-item-group v-model="clickListItem" color="primary">
                   <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(user)">
@@ -108,7 +111,7 @@
           </v-tab-item>
         </v-tabs>
       </dir>
-      <div style="flex:1; max-width:700px;" class="ma-4">
+      <div style="flex:1; max-width:700px;" class="mx-6">
         <h1>{{ otherPersonNickName }}</h1>
         <blockquote>{{ otherPersonMotivate? otherPersonMotivate: '' }}</blockquote>
         <div v-if="otherPersonFbLink">
@@ -116,11 +119,11 @@
         </div>
         <a v-if="otherPersonKeybrLink" :href="otherPersonKeybrLink">{{otherPersonKeybrLink}}</a>
         <div>成績：{{ otherPersonGrade.join("、")}} </div>
-        <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" options="oneUserChartOptions()"></line-chart>
+          <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" options="oneUserChartOptions" :styles="{margin:'auto', position:'relative',width: '500px', height: '500px'}"></line-chart>
 
       </div>
 
-    </div>
+    </v-card>
 
     <v-card class="mx-auto my-12 round" max-width="1280" :elevation="12">
       <v-toolbar :elevation="0">
@@ -405,6 +408,14 @@ const getDisplayDays = () => {
   background-color: rgba(0, 0, 0, 0.623);
 }
 .round{
-  border-radius: 30px;
+  border-radius: 30px !important;
+}
+.howhow_img{
+  height: 160px;
+    width: 160px;
+    max-width: 160px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 </style>
