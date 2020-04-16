@@ -362,7 +362,7 @@ export default {
         this.makeChart()
         const days = 21
         const options = {
-          strings: ['你今天...練英打了嗎？', 'keybr 😡😡'],
+          strings: ['你今天...練英打了嗎？', 'keybr 😡😡😃😃'],
           typeSpeed: 150
         }
         const typed = new Typed('.typing', options)

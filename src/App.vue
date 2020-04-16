@@ -1,8 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app>21 天英打鍛鍊武道大會</v-app-bar>
-
-    <v-content>
+    <v-app-bar app>21 天英打鍛鍊武道大會
+      <v-spacer></v-spacer>
+      <iframe src="https://ghbtns.com/github-btn.html?user=advancedor96&repo=hex_keybr_fronted&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+    </v-app-bar>
+   <v-content>
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
         <!-- If using vue-router -->
@@ -10,8 +12,7 @@
       </v-container>
     </v-content>
     <v-footer app>
-      <!-- <v-btn icon color="blue"><v-icon>mdi-facebook</v-icon></v-btn> -->
-      <v-btn text color="#FF7F50" @click="toGithub"><v-icon>mdi-source-repository</v-icon>原始碼</v-btn>
+      <!-- <v-btn text color="#FF7F50" @click="toGithub"><v-icon>mdi-source-repository</v-icon>原始碼</v-btn> -->
 
       <v-spacer></v-spacer>
       <div>&copy; {{ new Date().getFullYear() }}</div>
