@@ -4,15 +4,12 @@
       <v-progress-circular style="margin-top:200px;" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </v-flex>
 
-    <!-- <v-flex row align-center="" class="mx-auto"> -->
       <v-card class="d-flex row round mb-4 mx-auto" max-width="800" :elevation="12">
         <v-img class="howhow_img" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
         <dir style="flex:1;line-height: 160px; " class="ml-6">
           你今天...練英打了嗎？
         </dir>
       </v-card>
-      <!-- <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div> -->
-    <!-- </v-flex> -->
 
     <v-card class="mx-auto py-1 px-2 round" max-width="800" :elevation="12" >
       <v-toolbar :elevation="0">
@@ -68,7 +65,6 @@
                 </v-btn> -->
               </v-toolbar>
               <v-list rounded dense height="570" style="overflow:auto;">
-                <!-- <v-subheader>個人進步排名</v-subheader> -->
                 <v-list-item-group v-model="clickListItem" color="primary">
                   <v-list-item v-for="(user, i) in showProgressList" :key="i" @click="peopleSelect(user)">
                     <v-list-item-avatar>
@@ -87,12 +83,11 @@
           </v-tab-item>
           <v-tab-item>
             <!-- 前20名 -->
-            <v-card  class="mx-1" elevation="0"> <!-- class="mx-12" max-width="600" -->
+            <v-card  class="mx-1" elevation="0">
               <v-toolbar  elevation="0">
                 <v-toolbar-title>速度前20名</v-toolbar-title><v-spacer></v-spacer>
               </v-toolbar>
               <v-list rounded dense height="570" style="overflow:auto;">
-                <!-- <v-subheader>個人進步排名</v-subheader> -->
                 <v-list-item-group v-model="clickListItem" color="primary">
                   <v-list-item v-for="(user, i) in topSpeed20List" :key="i" @click="peopleSelect(user)">
                     <v-list-item-avatar>
@@ -138,11 +133,9 @@
 
 <script>
 // @ is an alias to /src
-// import Chart from 'chart.js'
 import LineChart from './LineChart.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
-// import { ModelSelect } from 'vue-search-select'
 
 export default {
   name: 'Home',
@@ -392,10 +385,6 @@ const getDisplayDays = () => {
 }
 </script>
 <style lang="scss" scoped>
-// .home{
-//   width: 1280px;
-//   background-color:#EBF3F9;
-// }
 .progress {
   position: absolute;
   top: 0;
