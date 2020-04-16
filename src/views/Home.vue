@@ -11,7 +11,10 @@
       <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
     </v-flex>
 
-    <v-card class="mx-auto py-1 px-2" max-width="800" :elevation="12" shaped>
+    <v-card class="mx-auto py-1 px-2 round" max-width="800" :elevation="12" >
+      <v-toolbar :elevation="0">
+        <v-toolbar-title>關注自己</v-toolbar-title>
+      </v-toolbar>
       <v-autocomplete
         v-model="auto_select_user"
         :items="userListForUi"
@@ -22,15 +25,13 @@
         placeholder="搜尋參賽者名稱"
         prepend-icon="mdi-database-search"
         return-object
-        class="mt-6"
       ></v-autocomplete>
 
       <v-alert
         border="bottom"
         colored-border
         type="warning"
-        elevation="2"
-        dismissible
+        elevation="6"
         v-if="showAlert"
       >
         {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
@@ -48,7 +49,7 @@
       </v-card-text>
     </v-card>
 
-    <div class="d-flex ma-4 mx-auto" :elevation="1">
+    <div class="d-flex ma-4 mx-auto " :elevation="1">
       <dir style="width:400px;">
         <v-tabs :fixed-tabs="true" >
           <v-tab >進步榜</v-tab>
@@ -121,7 +122,7 @@
 
     </div>
 
-    <v-card class="mx-auto my-12" max-width="1280" :elevation="0">
+    <v-card class="mx-auto my-12 round" max-width="1280" :elevation="12">
       <v-toolbar :elevation="0">
         <v-toolbar-title>所有人</v-toolbar-title>
       </v-toolbar>
@@ -402,5 +403,8 @@ const getDisplayDays = () => {
   height: 100%;
   top: 0;
   background-color: rgba(0, 0, 0, 0.623);
+}
+.round{
+  border-radius: 30px;
 }
 </style>
