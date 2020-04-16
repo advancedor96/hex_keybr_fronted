@@ -6,8 +6,8 @@
 
       <v-card class="d-flex row round mb-4 mx-auto" max-width="800" :elevation="12">
         <v-img class="howhow_img" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
-        <dir style="flex:1;line-height: 160px; " class="ml-6">
-          你今天...練英打了嗎？
+        <dir style="flex:1;line-height: 160px; height:160px;" class="ml-6">
+            <h1 class="typing"></h1>
         </dir>
       </v-card>
 
@@ -136,6 +136,7 @@
 import LineChart from './LineChart.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import Typed from 'typed.js'
 
 export default {
   name: 'Home',
@@ -360,6 +361,11 @@ export default {
         console.log('user', this.userList)
         this.makeChart()
         const days = 21
+        const options = {
+          strings: ['你今天...練英打了嗎？', 'keybr 😡😡'],
+          typeSpeed: 150
+        }
+        const typed = new Typed('.typing', options)
       } catch (err) {
         console.log('err', err)
       } finally {
