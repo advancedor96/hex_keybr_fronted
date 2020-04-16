@@ -1,17 +1,17 @@
 <template>
-  <div class="home" ref="aaa">
+  <div class="home mx-auto" ref="aaa">
     <v-flex v-if="isLoading" class="progress d-flex" justify-center>
       <v-progress-circular style="margin-top:200px;" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </v-flex>
 
-    <v-flex row align-center="" class="ml-2">
+    <v-flex row align-center="" class="mx-auto">
       <v-card max-width="160" >
         <v-img height="160px" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
       </v-card>
       <div class="font-weight-black ml-4" style="font-size: 40px; flex:1;">你今天...練英打了嗎？</div>
     </v-flex>
 
-    <v-card class="ml-0 py-1 px-2" max-width="600">
+    <v-card class="mx-auto py-1 px-2" max-width="800" :elevation="12" shaped>
       <v-autocomplete
         v-model="auto_select_user"
         :items="userListForUi"
@@ -35,9 +35,9 @@
       >
         {{ auto_select_user? auto_select_user.fullUser.nickName : '' }} 你今天還沒練打字！ <br />👉 <a href="https://www.keybr.com/">https://www.keybr.com</a>
       </v-alert>
-      <v-toolbar :elevation="0" color="" >
+      <!-- <v-toolbar :elevation="0">
         <v-toolbar-title><b>{{ auto_select_user? auto_select_user.fullUser.nickName : '' }}</b></v-toolbar-title>
-      </v-toolbar>
+      </v-toolbar> -->
 
       <v-card-text>
         <v-chip v-if="auto_select_user &&  auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
@@ -48,10 +48,10 @@
       </v-card-text>
     </v-card>
 
-    <div class="d-flex ma-4" :elevation="1">
+    <div class="d-flex ma-4 mx-auto" :elevation="1">
       <dir style="width:400px;">
-        <v-tabs :fixed-tabs="true">
-          <v-tab>進步榜</v-tab>
+        <v-tabs :fixed-tabs="true" >
+          <v-tab >進步榜</v-tab>
           <v-tab>前20名</v-tab>
           <v-tabs-slider></v-tabs-slider>
           <v-tab-item>
@@ -107,8 +107,17 @@
           </v-tab-item>
         </v-tabs>
       </dir>
+      <div style="flex:1; max-width:700px;" class="ma-4">
+        <h1>{{ otherPersonNickName }}</h1>
+        <blockquote>{{ otherPersonMotivate? otherPersonMotivate: '' }}</blockquote>
+        <div v-if="otherPersonFbLink">
+          <a :href="otherPersonFbLink">{{otherPersonFbLink}}</a>
+        </div>
+        <a v-if="otherPersonKeybrLink" :href="otherPersonKeybrLink">{{otherPersonKeybrLink}}</a>
+        <div>成績：{{ otherPersonGrade.join("、")}} </div>
+        <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" options="oneUserChartOptions()"></line-chart>
 
-      <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" options="oneUserChartOptions()" style="flex:1; max-width:700px;" class="ma-4"></line-chart>
+      </div>
 
     </div>
 
@@ -173,6 +182,14 @@ export default {
     allUserDataSet: null,
     oneUserCollection: {},
     otherPersonCollection: {}, // 隨意指定他們的圖表
+    otherPersonFbLink: '',
+    otherPersonGrade: [],
+    otherPersonKeybrLink: null,
+    otherPersonMotivate: null,
+    otherPersonNickName: null,
+    otherPersonPersevere: null,
+    otherPersonProgress: null,
+    otherPersonRange: null,
     countOf21Days: null, // 統計每一次有參賽的人數
     clickListItem: null,
     isLoading: false,
@@ -269,7 +286,14 @@ export default {
     peopleSelect (user) {
       // 選完user後，顯示那個user的圖
       console.log('click user:', user)
-
+      this.otherPersonNickName = user.nickName
+      this.otherPersonFbLink = user.fbLink
+      this.otherPersonKeybrLink = user.keybrLink
+      this.otherPersonMotivate = user.motivate
+      this.otherPersonPersevere = user.persevere
+      this.otherPersonProgress = user.progress
+      this.otherPersonRange = user.range
+      this.otherPersonGrade = user.grade
       const oneDataSet = [{
         label: user.nickName,
         data: user.grade.slice(0, getDisplayDays()),
@@ -364,6 +388,10 @@ const getDisplayDays = () => {
 }
 </script>
 <style lang="scss" scoped>
+// .home{
+//   width: 1280px;
+//   background-color:#EBF3F9;
+// }
 .progress {
   position: absolute;
   top: 0;
