@@ -4,14 +4,18 @@
       <v-progress-circular style="margin-top:200px;" :size="80" width="7" color="green" indeterminate></v-progress-circular>
     </v-flex>
 
-      <v-card class="d-flex row round mb-4 mx-auto" max-width="800" :elevation="12">
-        <v-img class="howhow_img" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
-        <dir style="flex:1;line-height: 160px; height:160px;" class="ml-6">
-            <h1 class="typing"></h1>
-        </dir>
-      </v-card>
+    <v-card class="d-flex row round mb-4 mx-auto" max-width="1280" :elevation="12">
+      <v-img class="howhow_img" src="https://i.imgur.com/fqbzjoG.png" ></v-img>
+      <dir style="flex:1;line-height: 160px; height:160px;" class="ml-6">
+          <h1 class="typing"></h1>
+      </dir>
+    </v-card>
 
-    <v-card class="mx-auto py-1 px-2 round" max-width="800" :elevation="12" >
+    <!-- <v-card class="mx-auto my-12 round" max-width="680" :elevation="12">
+        <line-chart ref="allUserLineChart" :chart-data="oneUserCollection" :options="oneUserChartOptions"></line-chart>
+    </v-card> -->
+
+    <v-card class="mx-auto py-1 px-2 round" max-width="1280" :elevation="12" >
       <v-toolbar :elevation="0">
         <v-toolbar-title>關注自己</v-toolbar-title>
       </v-toolbar>
@@ -44,20 +48,20 @@
         <v-chip v-if="auto_select_user &&  auto_select_user.fullUser.persevere" class="ma-2" color="green" text-color="white">持續中</v-chip>
         <v-chip v-else  class="ma-2" color="red" text-color="white">不持續</v-chip>
       </v-card-text>
-      <v-card-text>
-        <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" options="oneUserChartOptions"></line-chart>
+      <v-card-text style="width: 900px; margin:auto;">
+        <line-chart ref="oneUserLineChart" :chart-data="oneUserCollection" :options="oneUserChartOptions"></line-chart>
       </v-card-text>
     </v-card>
 
-    <v-card class="d-flex mx-auto round pt-8 pl-2 my-8" :elevation="12" style="max-width:1300px;max-height: 900px; height:770px;">
-      <dir style="width:400px;">
-        <v-tabs :fixed-tabs="true" >
+    <v-card class="d-flex mx-auto round pl-2 my-8" :elevation="12" style="max-width:1280px;max-height: 900px; height:770px;">
+      <dir style="width:400px;" class="mt-8">
+        <v-tabs :fixed-tabs="true" class="d_tab">
           <v-tab >鐵人進步獎</v-tab>
           <v-tab>鐵人神速獎</v-tab>
           <v-tabs-slider></v-tabs-slider>
           <v-tab-item>
             <!-- 進步榜 -->
-            <v-card class="mx-1" elevation="0">
+            <v-card elevation="0">
               <v-toolbar elevation="0">
                 <v-toolbar-title>{{progressListTitle}}</v-toolbar-title><v-spacer></v-spacer>
                 <!-- <v-btn icon @click="tollgeAllProgressList">
@@ -106,7 +110,7 @@
           </v-tab-item>
         </v-tabs>
       </dir>
-      <div style="flex:1; max-width:700px;" class="mx-6">
+      <div style="flex:1; border-radius:0 30px 30px 0; border-left:1px solid lightgray;" class="px-6 pt-8">
         <h1>{{ otherPersonNickName }}</h1>
         <blockquote>{{ otherPersonMotivate? otherPersonMotivate: '' }}</blockquote>
         <div v-if="otherPersonFbLink">
@@ -114,7 +118,7 @@
         </div>
         <a v-if="otherPersonKeybrLink" :href="otherPersonKeybrLink">{{otherPersonKeybrLink}}</a>
         <div>成績：{{ otherPersonGrade.join("、")}} </div>
-          <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" options="oneUserChartOptions" :styles="{margin:'auto', position:'relative',width: '500px', height: '500px'}"></line-chart>
+          <line-chart ref="otherPersonChart" :chart-data="otherPersonCollection" :options="oneUserChartOptions"></line-chart>
 
       </div>
 
