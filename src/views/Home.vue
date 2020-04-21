@@ -137,6 +137,8 @@
 
 <script>
 // @ is an alias to /src
+import dataFromJson from '@/assets/data.js'
+
 import LineChart from './LineChart.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -353,11 +355,11 @@ export default {
     async getData () {
       try {
         this.isLoading = true
-        const res = await axios.get(
-          'https://hexschool-keybr.herokuapp.com/api/users'
-        )
+        // const res = await axios.get(
+        //   'https://hexschool-keybr.herokuapp.com/api/users'
+        // )
         this.isLoading = false
-        this.userList = res.data.sort((a, b) => {
+        this.userList = dataFromJson.sort((a, b) => {
           const aa = a.grade.filter(x => x !== 0).length
           const bb = b.grade.filter(x => x !== 0).length
           return bb - aa
